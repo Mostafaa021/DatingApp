@@ -1,0 +1,22 @@
+<div class="container mt-5">
+    <div *ngIf="registerMode" style="text-align: center;">
+        <h1> Find Your Match </h1>
+        <p class="lead"> View Your Matches... Just Sign Up! </p>
+        <div class="text-center">
+            <button (click)="registerToggle()" class="btn btn-success btn-lg me-lg-3"> Register</button>
+            <button class="btn btn-secondary btn-lg "> Learn more</button>
+        </div>
+    </div>
+
+    <div *ngIf="!registerMode" class="container"> 
+        <div class="row justify-content-center">
+            <div class="col-lg-4">
+               <app-register (cancelRegister)="cancelRegisterMode($event)"></app-register>  
+               <!--passing Data from Child(Register) to Parent(Home) using () -->
+               <!--passing Data from Partent(home) to Child(register) using [] as [usersFromHomeComponent]="users"  -->
+            </div>
+
+        </div>
+    </div>
+    
+</div>

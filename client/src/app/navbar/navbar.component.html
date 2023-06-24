@@ -1,0 +1,53 @@
+<!-- navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark" aria-label="Eleventh navbar example">
+    <div class="container">
+      <a class="navbar-brand" href="#">Dating App</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <!-- if Logged in => use Angular NgIf to show Unordered List -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="accountService.currentUser$|async">
+          <li class="nav-item">
+            <a class="nav-link " aria-current="page" href="#">Matches</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="#">Lists</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link  ">Messages</a>
+          </li> 
+        </ul>
+<!-- if Logged in => use Angular NgIf to show Welcome User Button -->
+        <div class="btn-group" dropdown *ngIf="accountService.currentUser$|async">
+            <button id="button-animated" dropdownToggle type="button" class="btn btn-dark dropdown-toggle"aria-controls="dropdown-animated">
+              Welcome User<span class="caret"></span> 
+            </button>
+          <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"role="menu" aria-labelledby="button-animated">
+            <li role="menuitem" ><a class="dropdown-item">Edit Profile</a></li>
+            <!-- when click => call Fucntion Logout which used in NavBar Component Class  -->
+            <li role="menuitem"><a class="dropdown-item"(click)="logout()">Logout</a></li>
+          </ul>
+        </div>
+        <div class="btn-group" dropdown >
+         
+        </div>
+        <!-- if Not Logged in yet then Show Angular Form -->
+        <!-- when Click Login Button => Call Function Login which used in Navbar Component Class and submit it -->
+        <form *ngIf="!(accountService.currentUser$|async)" #loginForm="ngForm" class="d-flex" (ngSubmit)="login()" autocomplete="off">
+          <!-- [(ngModel)] used to Bind Data in HTTP Request   -->
+            <input 
+            name="userName"
+            [(ngModel)]="model.userName"
+             class="form-control me-2"
+              type="text" 
+              placeholder="User Name">
+            <input
+             name="Password"
+             [(ngModel)]="model.password"
+             class="form-control me-2" 
+             type="password" 
+             placeholder="password">
+            <button class="btn btn-outline-success" type="submit">Login</button>
+          </form>
+        </div>
+  </nav>

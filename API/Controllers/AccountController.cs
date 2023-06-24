@@ -23,7 +23,7 @@ namespace API.Controllers
         public async Task<ActionResult<UserDto>> Register([FromBody]RegisterDTO registerDTO)
         {
             // Check if UserName exitsts or Not 
-            if(await isExisted(registerDTO.UserName)) return BadRequest("User is Taken");
+            if(await IsExisted(registerDTO.UserName)) return BadRequest("User is Taken");
             using var hmac = new HMACSHA512();
             var user = new AppUser()
             {
@@ -61,7 +61,7 @@ namespace API.Controllers
             };
         }
         //Function to Check User is Exist or Not
-        private async Task<bool> isExisted (string username)
+        private async Task<bool> IsExisted (string username)
         {
             return await _context.Users.AnyAsync(x=>x.UserName==username.ToLower());
         }

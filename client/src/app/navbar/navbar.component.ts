@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../_services/account.service';
-import { User } from '_models/User';
-import { Observable, of } from 'rxjs';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-navbar',
@@ -13,7 +13,9 @@ import { Observable, of } from 'rxjs';
 export class NavbarComponent implements OnInit {
   model : any = {};
   
-  constructor(public accountService:AccountService){ // make public injectable to can be used through navbar component Template 
+  constructor(public accountService:AccountService ,  // make public injectable to can be used through navbar component Template 
+     private router:Router ,
+    private toastr:ToastrService){ 
 
   }
   
@@ -24,14 +26,13 @@ export class NavbarComponent implements OnInit {
  // Subscriber of Observable 
   login(){
   this.accountService.login(this.model).subscribe({
-    next : responce =>{ 
-      console.log(responce) ;
-      
-    }, 
-    error : error => console.log(error)
+    next : () => this.router.navigateByUrl('/members'), 
+    error : error => this.toastr.error(error.error)
   })
 }
 logout(){
-  this.accountService.logout()
+  this.accountService.logout();
+  this.router.navigateByUrl('/');
+ 
 }
 }

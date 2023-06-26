@@ -1,3 +1,4 @@
 {
-    "dotnet.defaultSolution": "DatingApp.sln"
+    "dotnet.defaultSolution": "DatingApp.sln",
+    "json.validate.enable": true,
 }

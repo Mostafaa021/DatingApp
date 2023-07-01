@@ -18,6 +18,9 @@
             <a type="button" class="btn btn-dark"  routerLink="/messages" routerLinkActive="active">Messages</a>
           </li> 
         </ng-container>
+        <li class="nav-item" >
+          <a type="button" class="btn btn-light"  routerLink="/errors" routerLinkActive="active">Errors</a>
+        </li> 
         </ul>
 <!-- if Logged in => use Angular NgIf to show Welcome User Button -->
         <div class="btn-group" dropdown *ngIf="(accountService.currentUser$|async) as user" >

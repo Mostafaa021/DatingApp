@@ -14,8 +14,8 @@ export class NavbarComponent implements OnInit {
   model : any = {};
   
   constructor(public accountService:AccountService ,  // make public injectable to can be used through navbar component Template 
-     private router:Router ,
-    private toastr:ToastrService){ 
+     private router:Router , // Inject Router Service
+    private toastr:ToastrService){  // Inject Toastr Service
 
   }
   
@@ -27,7 +27,6 @@ export class NavbarComponent implements OnInit {
   login(){
   this.accountService.login(this.model).subscribe({
     next : () => this.router.navigateByUrl('/members'), 
-    error : error => this.toastr.error(error.error)
   })
 }
 logout(){

@@ -1,0 +1,13 @@
+<h3 class="mt-5"> Internal Server Error</h3> 
+<ng-container *ngIf="error">
+ <h5 class="text-danger"> Error:{{error.message}}</h5>
+ <p class="font-weight-bold">Note : if you are seeing this , Angular isn`t the problem</p>
+ <li>What to do next?</li>
+ <ol>
+    <li>Open Chrome Dev tools! Then Check the Failing Request in network tab</li>
+    <li>Check request URL- What API endpoint you are Requesting</li>
+    <li>Reproduce the problem in Postman - if you got error then angular not involved </li>
+ </ol>
+ <p  style="font-size: larger; font-weight: bold;"> Following the Stack Trace - read first lines to get the problem</p>
+<code class="mt-4 text-dark" style="font-weight: bolder;" >{{error.details}}</code>
+</ng-container>

@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from '_models/User';
+import { User } from '../_models/user';
 import { BehaviorSubject, map } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn : 'root' // survive for the whole lifetime of application
@@ -12,12 +13,12 @@ import { BehaviorSubject, map } from 'rxjs';
 export class AccountService {
  private currentUserSource = new BehaviorSubject<User|null>(null) ; // using Behaviour Subject Observable to make All components see Current User
  currentUser$ = this.currentUserSource.asObservable() // make public property as Observable
-   baseUrl = 'https://localhost:5001/api'
+   baseUrl = environment.apiUrl
   constructor(private http:HttpClient ) {}
   // using Rxjs library which deal with observable  , transform observable
   // Login Function Carry Business Logic
   login(model:any){
-     return this.http.post<User>(this.baseUrl+'/account/login' , model).pipe( 
+     return this.http.post<User>(this.baseUrl+'account/login' , model).pipe( 
       map((responce:User) =>{
         const user = responce;
         if(user){

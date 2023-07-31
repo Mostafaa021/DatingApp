@@ -28,8 +28,8 @@ app.UseMiddleware<ExceptionMiddleWare>(); // Use Custom MiddleWare which Logging
 // {
 //    app.UseDeveloperExceptionPage();
 // }
-app.UseCors(builder=>builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200")); // Allowing CORS Policy
 app.UseHttpsRedirection(); // redirecting from HTTP to HTTPs
+app.UseCors(builder=>builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200")); // Allowing CORS Policy
 app.UseAuthentication(); // Ask you Have a Valid Token With Logged Name and Password ?
 app.UseAuthorization(); // Ask if Your Token Has Role on Some Actions allowed to do  ?
 app.MapControllers();

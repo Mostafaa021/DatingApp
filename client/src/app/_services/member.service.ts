@@ -15,21 +15,12 @@ export class MemberService {
 
   }
   getMember(username : string){
- return this.http.get<Member>(this.baseUrl + 'users/' + + username , this.getHttpOptions())
+ return this.http.get<Member>(this.baseUrl + 'users/' +  username )
   }
  // make method to return  list of members from request with function return options of authorization in header 
   getMembers(){ 
-    return this.http.get<Member[]>(this.baseUrl + 'users'  , this.getHttpOptions())
+    return this.http.get<Member[]>(this.baseUrl + 'users')
   }
 
-  getHttpOptions(){
-  const userString  = localStorage.getItem("user");
-  if(!userString) return ; 
-    const user = JSON.parse(userString);
-    return{
-      headers : new HttpHeaders({
-        Authorization : 'Bearer ' + user.token  // don`t forget Space Between Bearer and user.token
-      })
-    }
-  }
+  
 }

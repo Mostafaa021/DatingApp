@@ -25,9 +25,9 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/bootswatch/dist/Quartz/bootstrap.css",
+              "node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+              "node_modules/bootswatch/dist/sketchy/bootstrap.min.css",
               "node_modules/font-awesome/css/font-awesome.min.css",
               "node_modules/ngx-toastr/toastr.css",
               "src/styles.css"
@@ -56,13 +56,13 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true,
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.development.ts",
-                  "with": "src/environments/environment.ts"
-                }
-              ]
+              "namedChunks": true
+              // "fileReplacements": [
+              //   {
+              //     "replace": "src/environments/environment.development.ts",
+              //     "with": "src/environments/environment.ts"
+              //   }
+              // ]
             }
           },
           "defaultConfiguration": "development"

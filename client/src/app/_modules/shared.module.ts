@@ -25,7 +25,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     }),
     NgxGalleryModule,
     NgxSpinnerModule.forRoot({ 
-      type:'ball-scale-multiple' 
+      type:'line-spin-fade' 
     })
   ] ,
   exports :[

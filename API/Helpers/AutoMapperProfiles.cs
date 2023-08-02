@@ -14,8 +14,11 @@ namespace API.Helpers
             .ForMember(dest=>dest.PhotoUrl,// specify  Member of Destination
             options=>options.MapFrom(sourceMember=>sourceMember.Photos.FirstOrDefault(s=>s.IsMain).URL)) //Mapping From source Member
             .ForMember(dest=>dest.Age,
-            options=>options.MapFrom(src=>src.BirthDate.CalculateAge())); // Here we Mapped Directl from MemberDto => AppUser
+            options=>options.MapFrom(src=>src.BirthDate.CalculateAge())); // Here we Mapped Direct from MemberDto => AppUser
             CreateMap<Photo,PhotoDto>();
+            CreateMap<MemberUpdateDto,AppUser>()
+            .ReverseMap();
+
         }
     }
 }

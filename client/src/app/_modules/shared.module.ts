@@ -5,6 +5,8 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ToastrModule } from 'ngx-toastr';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
+import { NgxSpinnerModule } from 'ngx-spinner';
+
 
 
 
@@ -21,16 +23,18 @@ import { NgxGalleryModule } from '@kolkov/ngx-gallery';
       timeOut : 1000 ,
       easeTime : 300
     }),
-    NgxGalleryModule
-
+    NgxGalleryModule,
+    NgxSpinnerModule.forRoot({ 
+      type:'ball-scale-multiple' 
+    })
   ] ,
   exports :[
     TooltipModule,
     BsDropdownModule,
     TabsModule,
     ToastrModule,
-    NgxGalleryModule
-
+    NgxGalleryModule,
+    NgxSpinnerModule
   ]
 })
 export class SharedModule { }

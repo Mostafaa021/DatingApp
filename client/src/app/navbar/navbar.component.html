@@ -26,13 +26,12 @@
         <div class="btn-group" dropdown *ngIf="(accountService.currentUser$|async) as user" >
           <a  dropdownToggle type="button" class="btn btn-dark dropdown-toggle"> Welcome {{user.userName | titlecase}}</a>
           <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"role="menu" aria-labelledby="button-animated">
-            <li role="menuitem" ><a class="dropdown-item">Edit Profile</a></li>
+            <li role="menuitem" ><a class="dropdown-item" routerLink="member/edit">Edit Profile</a></li>
             <!-- when click => call Fucntion Logout which used in NavBar Component Class  -->
             <li role="menuitem"><a class="dropdown-item"(click)="logout()">Logout</a></li>
           </ul>
         </div>
         <div class="btn-group" dropdown >
-         
         </div>
         <!-- if Not Logged in yet then Show Angular Form -->
         <!-- when Click Login Button => Call Function Login which used in Navbar Component Class and submit it -->

@@ -1,4 +1,5 @@
 using API.Data;
+using API.Helpers;
 using API.Interfaces;
 using API.Services;
 using Microsoft.EntityFrameworkCore;
@@ -17,8 +18,11 @@ namespace API.Extensions
         // Inject per Scope
         services.AddScoped<ITokenService,TokenService>();
         services.AddScoped<IUserRepository,UserRepository>();
+        services.AddScoped<IPhotoService,PhotoService>();
         // inject service of AutoMapper
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); 
+        // inject Cloudinary Services to uploadPhotos 
+        services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
         return services ;
         }   
 

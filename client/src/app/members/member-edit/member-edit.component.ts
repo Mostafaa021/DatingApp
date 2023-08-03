@@ -25,8 +25,13 @@ export class MemberEditComponent implements OnInit {
     private memberService:MemberService ,
     private toastr:ToastrService) {
     this.accountservice.currentUser$.pipe(take(1)).subscribe({
-      next : user => this.user = user
+      next : user => {
+        if(user) {
+          this.user = user;
+        }
+      }
     })
+      
   }
   ngOnInit(): void {
     this.loadMembers();

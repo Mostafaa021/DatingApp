@@ -28,6 +28,7 @@ namespace API.Controllers
             var user = new AppUser()
             {
             UserName = registerDTO.UserName.ToLower() ,
+            
             PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDTO.Password)),
             PasswordSalt = hmac.Key
             };
@@ -36,14 +37,17 @@ namespace API.Controllers
             return new UserDto
             {
                 UserName = user.UserName,
-                Token = _tokenService.CreateToken(user)
+                Token = _tokenService.CreateToken(user),
+                PhotoUrl = user.Photos.FirstOrDefault(x=>x.IsMain)?.URL
             }; 
         }
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login([FromBody]LoginDTO loginDTO)
         {
             // Check That user name in Login already in Database or Not 
-            var user = await _context.Users.FirstOrDefaultAsync(x=>x.UserName == loginDTO.UserName);
+            var user = await _context.Users
+            .Include(p=>p.Photos)
+            .FirstOrDefaultAsync(x=>x.UserName == loginDTO.UserName);
             if(user == null) return Unauthorized("invalid User name");
             // using hmac algorithms same as user hashing salt saved in database 
             using var hmac = new HMACSHA512(user.PasswordSalt);
@@ -57,7 +61,8 @@ namespace API.Controllers
             return  new UserDto
             {
                 UserName = user.UserName,
-                Token = _tokenService.CreateToken(user)
+                Token = _tokenService.CreateToken(user),
+                PhotoUrl = user.Photos.FirstOrDefault(x=>x.IsMain)?.URL
             };
         }
         //Function to Check User is Exist or Not

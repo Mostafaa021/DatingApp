@@ -24,6 +24,7 @@
         </ul>
 <!-- if Logged in => use Angular NgIf to show Welcome User Button -->
         <div class="btn-group" dropdown *ngIf="(accountService.currentUser$|async) as user" >
+          <img src="{{user.photoUrl || './assets/user.png'}}" alt="user Photo">
           <a  dropdownToggle type="button" class="btn btn-dark dropdown-toggle"> Welcome {{user.userName | titlecase}}</a>
           <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"role="menu" aria-labelledby="button-animated">
             <li role="menuitem" ><a class="dropdown-item" routerLink="member/edit">Edit Profile</a></li>

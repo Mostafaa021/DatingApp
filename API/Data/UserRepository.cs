@@ -36,6 +36,7 @@ namespace API.Data
 
         public async Task<AppUser> GetUserByUserNameAsync(string username)
         {// No Need for this function if using AutoMapper
+         
               return await _context.Users
               .Include(p=>p.Photos)
               .SingleOrDefaultAsync(s=>s.UserName == username);

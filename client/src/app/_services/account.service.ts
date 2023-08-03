@@ -11,9 +11,10 @@ import { environment } from 'src/environments/environment';
 // inject Http Client Request in Service Constructor 
 // when Login function Called => Post Client Object (Model) to API Url which Return Observable
 export class AccountService {
+  baseUrl = environment.apiUrl;
  private currentUserSource = new BehaviorSubject<User|null>(null) ; // using Behaviour Subject Observable to make All components see Current User
- currentUser$ = this.currentUserSource.asObservable() // make public property as Observable
-   baseUrl = environment.apiUrl
+ currentUser$ = this.currentUserSource.asObservable(); // make public property as Observable
+  
   constructor(private http:HttpClient ) {}
   // using Rxjs library which deal with observable  , transform observable
   // Login Function Carry Business Logic
@@ -22,8 +23,9 @@ export class AccountService {
       map((responce:User) =>{
         const user = responce;
         if(user){
-          localStorage.setItem('user' , JSON.stringify(user)) // Key Value Pair as String
-          this.currentUserSource.next(user); // if user logged in succesfully update CurrentUserSource with user object 
+          // localStorage.setItem('user' , JSON.stringify(user)) // Key Value Pair as String
+          // this.currentUserSource.next(user); // if user logged in succesfully update CurrentUserSource with user object 
+          this.setCurrentUser(user);
         }
       })
      )
@@ -33,14 +35,16 @@ export class AccountService {
     return this.http.post<User>(this.baseUrl+'/account/Register' , model).pipe(
       map(user=>{
         if(user){
-          localStorage.setItem('user',JSON.stringify(user))
-          this.currentUserSource.next(user)// if user Registered succesfully update CurrentUserSource with user object
+          // localStorage.setItem('user',JSON.stringify(user))
+          // this.currentUserSource.next(user)// if user Registered succesfully update CurrentUserSource with user object
+          this.setCurrentUser(user);
         }
       })
     )
   }
 
   setCurrentUser(user:User){
+    localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user) // Function to be used out from component which inject Account Service to set value in currentUser
   }
   logout(){

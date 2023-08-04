@@ -42,13 +42,12 @@
                 <h4>Interests:</h4>
                 <p>{{member.interests}}</p>
             </tab>
-            <tab heading="Photos">
-                <ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery"></ngx-gallery>
+            <tab heading="Photos" #photoTab="tab">
+                <gallery *ngIf="photoTab.active"  [items]="images" thumbPosition="left"   class="gallery"></gallery>
             </tab>
             <tab heading="Messages">
                 <p>Messages will be here</p>
             </tab>
-            
         </tabset>
     </div>
 </div >

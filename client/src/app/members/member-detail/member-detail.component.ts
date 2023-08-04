@@ -1,45 +1,50 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions } from '@kolkov/ngx-gallery';
+import { GalleryItem, GalleryModule, ImageItem } from 'ng-gallery';
+import { TabsModule } from 'ngx-bootstrap/tabs';
+import { take } from 'rxjs';
 import { Member } from 'src/app/_models/member';
+import { User } from 'src/app/_models/user';
+import { AccountService } from 'src/app/_services/account.service';
 import { MemberService } from 'src/app/_services/member.service';
 
 @Component({
+  standalone : true,
   selector: 'app-member-detail',
   templateUrl: './member-detail.component.html',
-  styleUrls: ['./member-detail.component.css']
+  styleUrls: ['./member-detail.component.css'] ,
+  imports : [CommonModule , TabsModule, GalleryModule ]
+  
 })
 export class MemberDetailComponent implements OnInit {
   member :Member | undefined;
-  galleryOptions: NgxGalleryOptions[] = [];
-  galleryImages: NgxGalleryImage[] = [];
-  constructor(private memberService:MemberService , private route:ActivatedRoute){
+  images : GalleryItem[] = [];
+  users?:User;
+  
+// There is a new version of ngx-gallery realesed for Angular 16 called ng-gallery ==> Leason 113
 
+  constructor(private memberService:MemberService , private route:ActivatedRoute ,
+    private accountService:AccountService){
+      this.accountService.currentUser$.pipe(take(1)).subscribe({
+        next:user=> {
+          if(user) this.users = user
+        }
+      })
+  
   }
   ngOnInit(): void {
-   this.loadMembers()
-   this.galleryOptions = [
-    {
-      width: '500px',
-      height: '500px',
-      imagePercent:100,
-      thumbnailsColumns: 4,
-      imageAnimation: NgxGalleryAnimation.Slide,
-      preview:false
-    }
-   ]
+   this.loadMembers();
+   this.getImages();
+   
   }
   getImages() {
-    if(!this.member) return [] ;
-    const imageUrls = []
+    if(!this.member) return;
+  
     for(const photo of this.member.photos){
-      imageUrls.push({
-        small : photo.url,
-        medium : photo.url,
-        big : photo.url
-      })
+      this.images.push(new ImageItem({src: photo.url , thumb:photo.url}))
     }
-    return imageUrls
+   
   }
  loadMembers(){
   const  username = this.route.snapshot.paramMap.get('username')
@@ -47,7 +52,9 @@ export class MemberDetailComponent implements OnInit {
   this.memberService.getMember(username).subscribe({
     next : member => {
       this.member = member;
-      this.galleryImages = this.getImages(); //here we added getimages() in loadMembers() to ensure that member photos already loaded 
+      this.getImages()
+      //  legacy code while using ngx-gallery
+      //this.galleryImages = this.getImages(); //here we added getimages() in loadMembers() to ensure that member photos already loaded 
     }
   })
   }

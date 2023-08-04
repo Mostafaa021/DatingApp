@@ -1,22 +1,20 @@
-import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { inject } from '@angular/core';
+import { CanActivateFn } from '@angular/router';
+import { map } from 'rxjs';
 import { AccountService } from '../_services/account.service';
 import { ToastrService } from 'ngx-toastr';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AuthGuard  { // Guards in Angular now don`t need to implement CanActivate Interface 
-  constructor(private accountService : AccountService ,  private toastr:ToastrService){
 
-  }
-  canActivate(): Observable<boolean>{
+export const authGuard : CanActivateFn = (route , state) => { // Guards in Angular now don`t need to implement CanActivate Interface 
+  const accountService = inject(AccountService);
+  const toastr = inject(ToastrService);
+  
       
-   return this.accountService.currentUser$.pipe(
+   return accountService.currentUser$.pipe(
     map(user => {
       if(user) return true ; 
       else {
-        this.toastr.error("you don`t have Permission")
+        toastr.error("you don`t have Permission")
         return false
       }
     }
@@ -24,4 +22,4 @@ export class AuthGuard  { // Guards in Angular now don`t need to implement CanAc
    )
   }
   
-}
+

@@ -22,10 +22,10 @@ export class ErrorsInterceptor implements HttpInterceptor {
           switch(error.status){
             case 400 :  // in case of 400 we have 2 choices as Validation error or Bad Request so 
             if(error.error.errors){ // in case of validation error we got HttpErorrResponce with error key have array of erros as objects
-              const modelStateErrors = [];
+              const modelStateErrors = []; // make an empty array to just show array of error then push error in it 
               for (const key in error.error.errors) {
                 if(error.error.errors[key]){
-                  modelStateErrors.push(error.error.errors[key]) // make an empty array to just show array of error 
+                  modelStateErrors.push(error.error.errors[key]) 
                 }
               }
               throw modelStateErrors.flat();

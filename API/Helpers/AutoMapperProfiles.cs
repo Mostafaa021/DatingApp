@@ -16,8 +16,8 @@ namespace API.Helpers
             .ForMember(dest=>dest.Age,
             options=>options.MapFrom(src=>src.BirthDate.CalculateAge())); // Here we Mapped Direct from MemberDto => AppUser
             CreateMap<Photo,PhotoDto>();
-            CreateMap<MemberUpdateDto,AppUser>()
-            .ReverseMap();
+            CreateMap<MemberUpdateDto,AppUser>().ReverseMap();
+            CreateMap<RegisterDTO,AppUser>();
 
         }
     }

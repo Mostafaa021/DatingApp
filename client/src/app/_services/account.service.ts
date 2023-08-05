@@ -32,7 +32,7 @@ export class AccountService {
   }
   // Register Function Carry Business Logic
   register(model:any){
-    return this.http.post<User>(this.baseUrl+'/account/Register' , model).pipe(
+    return this.http.post<User>(this.baseUrl+'account/Register' , model).pipe(
       map(user=>{
         if(user){
           // localStorage.setItem('user',JSON.stringify(user))

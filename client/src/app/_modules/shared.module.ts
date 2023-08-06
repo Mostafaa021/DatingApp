@@ -8,6 +8,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { FileUploadModule } from 'ng2-file-upload';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 
 
@@ -30,8 +31,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     }),
     FileUploadModule ,
     BrowserAnimationsModule,
-    BsDatepickerModule.forRoot()
-
+    BsDatepickerModule.forRoot(),
+    PaginationModule.forRoot()
   ] ,
   exports :[
     TooltipModule,
@@ -40,7 +41,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ToastrModule,
     NgxSpinnerModule,
     FileUploadModule,
-    BsDatepickerModule
+    BsDatepickerModule,
+    PaginationModule
   ]
 })
 export class SharedModule { }

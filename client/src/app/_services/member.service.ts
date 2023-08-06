@@ -1,8 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Member } from '../_models/member';
 import { map, of } from 'rxjs';
+import { Pagination, PaginationResult } from '../_models/pagination';
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +11,11 @@ import { map, of } from 'rxjs';
 export class MemberService {
   baseUrl  = environment.apiUrl ;  // assign environment apiurl property 
   members : Member[] = [] // here we implment member in service as life time of service along Angular not like component just destroyed after it has been called
-
+  paginatedResult : PaginationResult<Member[]> = new PaginationResult<Member[]>;
+  
   constructor(private http:HttpClient)  // in constructor inject http client 
   {
-
-
+    
   }
   getMember(username : string){
     const member = this.members.find(m=>m.userName == username)
@@ -23,13 +24,25 @@ export class MemberService {
  
   }
  // make method to return  list of members from request with function return options of authorization in header 
-  getMembers(){
-    if(this.members.length>0)  return of(this.members);
-    return this.http.get<Member[]>(this.baseUrl + 'users').pipe(
-      map( members => {
-        this.members = members;
-        return members ;
-      })
+  getMembers(pageNumber?:number , itemsPerPage?:number){
+    let params = new HttpParams();
+    if(pageNumber && itemsPerPage)
+    {
+      params = params.append('pageNumber' , pageNumber);
+      params = params.append('pageSize' , itemsPerPage)
+    }
+    return this.http.get<Member[]>(this.baseUrl + 'users',{observe:"response",params}).pipe(
+      map(response=>{
+        if(response.body){
+          this.paginatedResult.results = response.body
+        }
+        const pagination = response.headers.get('Pagination')
+        if(pagination){
+          this.paginatedResult.pagination = JSON.parse(pagination);
+        }
+        return this.paginatedResult
+      }
+      )
     )
   }
   updateMemeber(member:Member){

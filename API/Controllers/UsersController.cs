@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using API.Extensions;
 using Microsoft.EntityFrameworkCore;
 using API.Services;
+using API.Helpers;
 
 namespace API.Controllers
 {
@@ -31,9 +32,19 @@ namespace API.Controllers
             _userRepository = userRepository;
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
-        {
-            var users = await _userRepository.GetMembersAsync(); 
+        public async Task<ActionResult<PagedList<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
+        {   //* get current logged in user
+            var CurrentUser = await _userRepository.GetUserByUserNameAsync(User.GetUsername());
+            userParams.CurrentUserName =  CurrentUser.UserName;
+            // here to project oposite of yser in gender if female => male | male=> female
+            if(string.IsNullOrEmpty(userParams.Gender))
+            {
+             userParams.Gender = CurrentUser.Gender == "male"?"female":"male" ;
+            }
+            
+            var users = await _userRepository.GetMembersAsync(userParams); 
+            Response.AddPaginationHeader(new PaginationHeader(users.CurrentPage,users.PageSize ,
+             users.RecordsCount , users.PagesCount));
             return Ok(users); // OK =>Return object of type Task<ActionResult>
         }
         [HttpGet("{id:int}")]

@@ -1,5 +1,6 @@
 using API.DTOs;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -72,12 +73,20 @@ namespace API.Data
             .SingleOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<MemberDto>> GetMembersAsync()
+        public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {
-             // AutoMapper is Eager Loading so no need to use Include
-            return await _context.Users
-            .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-            .ToListAsync();
+            // get all user asQueryable
+            var query = _context.Users.AsQueryable();
+            // get users that not matching the same username(other users) && Gender == Gender
+            // here user.Gender == userParams.Gender not the oposite to be handled in controller
+            // but user.userName != userParams.userName as in all cases you can matching yourself 
+           query = query.Where(x=>x.UserName != userParams.CurrentUserName && x.Gender == userParams.Gender);
+            // No need to make EF core track PageList Class as it`s not the actual user
+           var items = query.AsNoTracking().ProjectTo<MemberDto>(_mapper.ConfigurationProvider);
+            return await PagedList<MemberDto>.CreateAsync(items,
+            userParams.PageSize ,userParams.PageNumber);
         }
+
+
     }
 }

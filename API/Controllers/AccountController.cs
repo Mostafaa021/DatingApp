@@ -30,7 +30,7 @@ namespace API.Controllers
         {
             // Check if UserName exitsts or Not 
             if(await IsExisted(registerDTO.UserName)) return BadRequest("User is Taken");
-            
+             
             var user = _mapper.Map<RegisterDTO,AppUser>(registerDTO);
 
             using var hmac = new HMACSHA512();
@@ -46,7 +46,9 @@ namespace API.Controllers
             {
                 UserName = user.UserName,
                 Token = _tokenService.CreateToken(user),
-                KnownAs = user.KnownAs
+                KnownAs = user.KnownAs,
+                Gender = user.Gender
+
             }; 
         }
         [HttpPost("login")]
@@ -71,7 +73,8 @@ namespace API.Controllers
                 UserName = user.UserName,
                 Token = _tokenService.CreateToken(user),
                 PhotoUrl = user.Photos.FirstOrDefault(x=>x.IsMain)?.URL,
-                KnownAs = user.KnownAs
+                KnownAs = user.KnownAs,
+                Gender = user.Gender
             };
         }
         //Function to Check User is Exist or Not

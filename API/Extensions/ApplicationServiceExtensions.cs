@@ -1,4 +1,5 @@
 using API.Data;
+using API.Filters;
 using API.Helpers;
 using API.Interfaces;
 using API.Services;
@@ -19,6 +20,8 @@ namespace API.Extensions
         services.AddScoped<ITokenService,TokenService>();
         services.AddScoped<IUserRepository,UserRepository>();
         services.AddScoped<IPhotoService,PhotoService>();
+        // inject Filter as Service
+        services.AddScoped<LogUserActivityFilter>();
         // inject service of AutoMapper
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); 
         // inject Cloudinary Services to uploadPhotos 

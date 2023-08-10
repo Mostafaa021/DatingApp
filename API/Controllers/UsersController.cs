@@ -14,7 +14,7 @@ using API.Helpers;
 namespace API.Controllers
 {
     // domain /api/users
-    [Authorize]
+    [Authorize] // as we already making authorize attribute to check authorization 
     public class UsersController : BaseApiController
     {
 
@@ -36,7 +36,7 @@ namespace API.Controllers
         {   //* get current logged in user
             var CurrentUser = await _userRepository.GetUserByUserNameAsync(User.GetUsername());
             userParams.CurrentUserName =  CurrentUser.UserName;
-            // here to project oposite of yser in gender if female => male | male=> female
+            // here to project oposite of user in gender if female => male | male=> female
             if(string.IsNullOrEmpty(userParams.Gender))
             {
              userParams.Gender = CurrentUser.Gender == "male"?"female":"male" ;
@@ -55,12 +55,11 @@ namespace API.Controllers
         [HttpGet("{name:alpha}")]
         public async Task<ActionResult<MemberDto>> GetUserByName(string name)
         {
-             if(await _userRepository.GetUserByUserNameAsync(name) == null)
+             if(await _userRepository.GetMemberByNameAsync(name) == null)
              {
                 return NotFound("Not Founded");
              }
-              return await _userRepository.GetMemberByNameAsync(name) ;
-             
+             return await _userRepository.GetMemberByNameAsync(name);
             
         }
         [HttpPut]

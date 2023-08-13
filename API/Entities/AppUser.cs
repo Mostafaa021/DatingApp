@@ -21,6 +21,10 @@ namespace API.Entities
         public string Interests { get; set; }
         public List<Photo> Photos { get; set; } = new List<Photo>();
 
+        public virtual List<UserLike> LikedByUsers { get; set; } //users  who will like current users
+        public  virtual List<UserLike> LikedUsers{ get; set; } // users who will be liked by current users
+
+
         
          /* Here we Removed Function To Can make AutoMapper Work Correctly and then Config in AutpMapper Profile 
           how to map MemberDto.Age with AppUser.BirthDate.CalculateAge()*/

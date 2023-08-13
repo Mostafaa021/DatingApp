@@ -53,7 +53,7 @@ export class MemberService {
     params = params.append('maxAge' , userParams.maxAge);
     params = params.append('gender' , userParams.gender);
     params = params.append('orderBy' , userParams.orderBy)
-    return this.getPaginatedResults<Member[]>(this.baseUrl ,params).pipe(
+    return this.getPaginatedResults<Member[]>(this.baseUrl + 'users' ,params).pipe(
       map(response =>{
         this.membersCache.set(Object.values(userParams).join('-'),response)
         return response
@@ -88,9 +88,20 @@ export class MemberService {
   deletePhoto(photoId:number) {
   return this.http.delete(this.baseUrl + 'users/delete-photo/'+ photoId )
   }
+
+  addLike(username : string){
+    return this.http.post(this.baseUrl + 'likes/' + username, {})
+
+  }
+
+  getLikes(predicate : string , pageNumber : number , pageSize:number) {
+    let params = this.getPaginationHeaders(pageNumber,pageSize);
+    params = params.append('predicate' , predicate)
+    return this.getPaginatedResults<Member[]>(this.baseUrl + 'likes' , params)
+  }
   private getPaginatedResults<T>(url : string , params: HttpParams) {
     const paginatedResult : PaginationResult<T> = new PaginationResult<T>;
-    return this.http.get<T>(url + 'users', { observe: "response", params }).pipe(
+    return this.http.get<T>(url , { observe: "response", params }).pipe(
       map(response => {
         if (response.body) {
           paginatedResult.results = response.body;
@@ -109,7 +120,6 @@ export class MemberService {
     let params = new HttpParams();
       params = params.append('pageNumber',pageNumber);
       params = params.append('pageSize', pageSize);
-    
     return params;
   }
 }

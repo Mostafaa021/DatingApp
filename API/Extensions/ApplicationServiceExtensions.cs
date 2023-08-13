@@ -20,6 +20,7 @@ namespace API.Extensions
         services.AddScoped<ITokenService,TokenService>();
         services.AddScoped<IUserRepository,UserRepository>();
         services.AddScoped<IPhotoService,PhotoService>();
+        services.AddScoped<ILikesRepository,LikeRepository>();
         // inject Filter as Service
         services.AddScoped<LogUserActivityFilter>();
         // inject service of AutoMapper

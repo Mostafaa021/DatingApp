@@ -21,7 +21,7 @@ namespace API.Controllers
             
         }
         [HttpPost("{username:alpha}")]
-        public async Task<IActionResult> AddLike(string username)
+        public async Task<IActionResult> AddLike(string username )
         {
             if(User.Identity.IsAuthenticated)
             {
@@ -57,7 +57,6 @@ namespace API.Controllers
          var users = await _likeRepository.GetUserLikes(likesParams);
           Response.AddPaginationHeader(new PaginationHeader(users.CurrentPage,users.PageSize ,
           users.RecordsCount , users.PagesCount));
-         
          return Ok(users);
         }
     }

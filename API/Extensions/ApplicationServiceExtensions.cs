@@ -21,8 +21,10 @@ namespace API.Extensions
         services.AddScoped<IUserRepository,UserRepository>();
         services.AddScoped<IPhotoService,PhotoService>();
         services.AddScoped<ILikesRepository,LikeRepository>();
-        // inject Filter as Service
-        services.AddScoped<LogUserActivityFilter>();
+        services.AddScoped<IMessageRepository, MessageRepository>();
+
+            // inject Filter as Service
+            services.AddScoped<LogUserActivityFilter>();
         // inject service of AutoMapper
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); 
         // inject Cloudinary Services to uploadPhotos 

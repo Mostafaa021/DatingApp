@@ -13,7 +13,7 @@ using API.Helpers;
 
 namespace API.Controllers
 {
-    // domain /api/users
+    // domain/api/users
     [Authorize] // as we already making authorize attribute to check authorization 
     public class UsersController : BaseApiController
     {

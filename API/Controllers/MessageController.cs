@@ -1,6 +1,7 @@
 ﻿using API.DTOs;
 using API.Entities;
 using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,7 @@ namespace API.Controllers
             _messageRepository = messageRepository;
             _mapper = mapper;
         }
-        
+        [HttpPost]
         public async Task<ActionResult<MessageDto>> CreateMessage( CreateMessageDto createMessageDto)
         {
             // get user name  of sender  from claims 
@@ -39,7 +40,7 @@ namespace API.Controllers
 
             if (recipient == null) 
                 return NotFound();
-            // fill message object with propeate data 
+            // fill message object with proper data 
             var message = new Message()
             {
                 Sender = sender,
@@ -51,9 +52,25 @@ namespace API.Controllers
 
             _messageRepository.AddMessage(message);
             if (await _messageRepository.SaveAllAsync()) 
-                return Ok(_mapper.Map<MessageDto>(message));  // pass from Message Object to MessageDTO
+                return Ok(_mapper.Map<MessageDto>(message));  // if succeeded =>  pass from Message Object to MessageDTO
 
-            return BadRequest("Failed to Save Message");
+            return BadRequest("Failed to Save Message"); // if ==> Failed to save to DB => return bad request
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<PagedList<MessageDto>>> GetMessageForUser([FromQuery]MessageParams messageParams)
+        {
+            messageParams.username = User.GetUsername();
+
+
+            var messages = await _messageRepository.GetMessageForUser(messageParams);
+
+            Response.AddPaginationHeader(
+                new PaginationHeader(messages.CurrentPage, messages.PageSize, messages.RecordsCount, messages.PagesCount)
+                );
+
+            return messages ;
+
         }
     }
 }

@@ -10,7 +10,7 @@ namespace API.Extensions
         public static IServiceCollection AddIdentityServices(this IServiceCollection services ,
          IConfiguration config) 
         {
-            //Authentication fot JWT Service
+            //Authentication for JWT Service
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).
             AddJwtBearer(options=>{
             options.RequireHttpsMetadata = true;

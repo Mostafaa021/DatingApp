@@ -14,8 +14,8 @@ namespace API.Controllers
         private readonly IMessageRepository _messageRepository;
         private readonly IMapper _mapper;
 
-        public MessageController(IUserRepository userRepository ,
-                                IMessageRepository messageRepository ,
+        public MessageController(IUserRepository userRepository,
+                                IMessageRepository messageRepository,
                                 IMapper mapper)
         {
             _userRepository = userRepository;
@@ -23,7 +23,7 @@ namespace API.Controllers
             _mapper = mapper;
         }
         [HttpPost]
-        public async Task<ActionResult<MessageDto>> CreateMessage( CreateMessageDto createMessageDto)
+        public async Task<ActionResult<MessageDto>> CreateMessage(CreateMessageDto createMessageDto)
         {
             // get user name  of sender  from claims 
             var SenderUserName = User.GetUsername();
@@ -38,7 +38,7 @@ namespace API.Controllers
             // get recipient as object of AppUser 
             var recipient = await _userRepository.GetUserByUserNameAsync(createMessageDto.RecipientUserName);
 
-            if (recipient == null) 
+            if (recipient == null)
                 return NotFound();
             // fill message object with proper data 
             var message = new Message()
@@ -51,14 +51,14 @@ namespace API.Controllers
             };
 
             _messageRepository.AddMessage(message);
-            if (await _messageRepository.SaveAllAsync()) 
+            if (await _messageRepository.SaveAllAsync())
                 return Ok(_mapper.Map<MessageDto>(message));  // if succeeded =>  pass from Message Object to MessageDTO
 
             return BadRequest("Failed to Save Message"); // if ==> Failed to save to DB => return bad request
         }
 
         [HttpGet]
-        public async Task<ActionResult<PagedList<MessageDto>>> GetMessageForUser([FromQuery]MessageParams messageParams)
+        public async Task<ActionResult<PagedList<MessageDto>>> GetMessageForUser([FromQuery] MessageParams messageParams)
         {
             messageParams.username = User.GetUsername();
 
@@ -69,8 +69,16 @@ namespace API.Controllers
                 new PaginationHeader(messages.CurrentPage, messages.PageSize, messages.RecordsCount, messages.PagesCount)
                 );
 
-            return messages ;
+            return messages;
 
+        }
+        [HttpGet("thread/{username}")]
+        public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThread(string username)
+        {
+            var currentUserName = User.GetUsername();
+            var messages = await _messageRepository.GetMessageThread(currentUserName, username);
+
+            return Ok(messages);
         }
     }
 }

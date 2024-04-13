@@ -30,7 +30,7 @@ Follow these steps to set up the project locally:
 ### Prerequisites
 
 - Node.js and npm installed on your machine
-- .NET 6 SDK installed
+- .NET 7 SDK installed
 - Angular CLI installed globally (`npm install -g @angular/cli`)
 
 ### Installation

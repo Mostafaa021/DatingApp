@@ -36,6 +36,7 @@ namespace API.Controllers
         {   //* get current logged in user
             var CurrentUser = await _userRepository.GetUserByUserNameAsync(User.GetUsername());
             userParams.CurrentUserName =  CurrentUser.UserName;
+            userParams.Gender = CurrentUser.Gender;
             // here to project oposite of user in gender if female => male | male=> female
             if(string.IsNullOrEmpty(userParams.Gender))
             {

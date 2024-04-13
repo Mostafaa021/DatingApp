@@ -11,6 +11,8 @@
             </li>
             <li class="list-inline-item">
                 <button
+                routerLink="/members/{{member.userName}}"
+                [queryParams]="{tab:'Messages'}"
                     class="btn btn-danger">
                     <i class="fa fa-envelope"></i>
                 </button>

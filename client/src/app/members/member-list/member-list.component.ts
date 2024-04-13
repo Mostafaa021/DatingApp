@@ -15,8 +15,8 @@ import { MemberService } from 'src/app/_services/member.service';
 export class MemberListComponent  implements OnInit{
   // members$ : Observable<Member[]> |undefined ;
   members :Member[] = []
-  pagination : Pagination | undefined;
-  userParams : UserParams | undefined;
+  pagination ?: Pagination;
+  userParams ?: UserParams;
   genderList = [{value : 'male' , display : 'Males'},
                 {value : 'female' , display : 'Females'}]
  

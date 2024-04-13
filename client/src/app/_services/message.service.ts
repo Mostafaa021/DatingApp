@@ -8,8 +8,10 @@ import { Message } from '../_models/message';
   providedIn: 'root'
 })
 export class MessageService {
+ 
 
   baseUrl = environment.apiUrl
+
 
   constructor( private http:HttpClient) { }
 
@@ -17,5 +19,18 @@ export class MessageService {
     let params = getPaginationHeaders(pageNumber, pageSize);
     params = params.append("Container", container); 
     return getPaginatedResults<Message[]>(this.baseUrl + 'Message' , params,this.http);
+  }
+
+  getMessageThread(username:string|undefined){
+    return this.http.get<Message[]>(this.baseUrl +"Message/thread/"+ username )
+
+  }
+  sendMessage(username:string , content:string) {
+    return this.http.post<Message>(this.baseUrl + "Message" ,{recipientUserName : username , content})
+
+  }
+  deleteMessage(id:number) {
+    return this.http.delete<Message>(this.baseUrl + "Message/" + id )
+
   }
 }

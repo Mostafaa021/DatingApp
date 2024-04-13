@@ -11,7 +11,7 @@ import { MessageService } from '../_services/message.service';
 export class MessagesComponent implements OnInit {
 messages ?: Message[] ;
 pagination?:Pagination;
-
+loading : boolean = false ;
 container = 'Unread'; 
 pageNumber = 1 ; 
 PageSize = 5 ; 
@@ -23,12 +23,21 @@ constructor(private messageService:MessageService) {}
   }
 
 loadMessages(){
+  this.loading = true ; 
   this.messageService.getMessages(this.pageNumber , this.PageSize , this.container).subscribe({
   next: responce => {
   this.messages = responce.results ; 
   this.pagination = responce.pagination ; 
+  this.loading = false ;
   } 
 })}
+
+deleteMessage(id : number) {
+  this.messageService.deleteMessage(id).subscribe({
+    next: ()=> this.messages?.splice(this.messages.findIndex(m=>m.id === id) , 1)
+  })
+
+}
 
 pageChanged(event : any) {
   if (this.pageNumber !== event.page){

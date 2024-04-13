@@ -1,8 +1,8 @@
-# Dating App using Angular 16 and .NET 6
+# Dating App using Angular 16 and .NET 7
 
 ## Overview
 
-This project is a modern dating application built with Angular 16 for the frontend and .NET 6 for the backend.
+This project is a modern dating application built with Angular 16 for the frontend and .NET 7 for the backend.
 It incorporates essential features such as clean architecture, identity role management, and real-time chat functionality using SignalR.
 
 ### Features
@@ -19,7 +19,7 @@ It incorporates essential features such as clean architecture, identity role man
 The project utilizes the following technologies:
 
 - **Frontend**: Angular 16
-- **Backend**: .NET 6
+- **Backend**: .NET 7
 - **Authentication & Authorization**: .NET Identity
 - **Real-time Communication**: SignalR
 

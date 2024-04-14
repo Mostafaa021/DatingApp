@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
+using Microsoft.AspNetCore.Identity;
+using API.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,8 +41,9 @@ var services = scope.ServiceProvider; // access above services inside created Sc
 try
 {
  var context =services.GetRequiredService<DataContext>(); // get context which will be seed inside
+ var userManager = services.GetRequiredService<UserManager<AppUser>>(); // get UserManager context instead of DataContext Used
  await context.Database.MigrateAsync(); // this function to ensure migration and if dropped database will create new one with seeded data
- await Seed.SeedUsers(context); // Then seed Data in database
+ await Seed.SeedUsers(userManager); // Then seed Data in database
 }
 catch (Exception ex)
 {

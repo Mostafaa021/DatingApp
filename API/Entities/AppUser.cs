@@ -1,13 +1,14 @@
 using API.Extensions;
+using Microsoft.AspNetCore.Identity;
 
 namespace API.Entities
 {
-    public class AppUser
+    public class AppUser : IdentityUser<int>
     {
-        public int Id { get; set; }
-        public string UserName { get; set; }
-        public byte[] PasswordHash { get; set; }
-        public byte[] PasswordSalt { get; set; }
+        //public int Id { get; set; }
+        //public string UserName { get; set; }
+        //public byte[] PasswordHash { get; set; } 
+        //public byte[] PasswordSalt { get; set; } // identity take care of salting password 
         public DateOnly BirthDate { get; set; } 
         public DateTime Created { get; set; } = DateTime.UtcNow;
         public DateTime LastActive { get; set; } = DateTime.UtcNow;
@@ -19,13 +20,18 @@ namespace API.Entities
         public string City { get; set; }
 
         public string Interests { get; set; }
-        public List<Photo> Photos { get; set; } = new List<Photo>();
+        public ICollection<Photo> Photos { get; set; } = new List<Photo>();
 
-        public virtual List<UserLike> LikedByUsers { get; set; } //users  who will like current users
-        public  virtual List<UserLike> LikedUsers{ get; set; } // users who will be liked by current users
+        public virtual ICollection<UserLike> LikedByUsers { get; set; } //users  who will like current users
+        public  virtual ICollection<UserLike> LikedUsers{ get; set; } // users who will be liked by current users
 
-        public virtual List<Message> MessagesSent { get; set; }
-        public virtual List<Message> MessagesRecieved { get; set; }
+        public virtual ICollection<Message> MessagesSent { get; set; }
+        public virtual ICollection<Message> MessagesRecieved { get; set; }
+
+        public virtual ICollection<AppUserRole> UserRoles { get; set; } // navigation property User (M) <==> Role(M) 
+        //public virtual ICollection<IdentityUserClaim<int>> Claims { get; set; }
+        //public virtual ICollection<IdentityUserLogin<int>> Logins { get; set; }
+        //public virtual ICollection<IdentityUserToken<int>> Tokens { get; set; }
 
 
 

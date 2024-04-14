@@ -33,12 +33,12 @@ namespace API.Controllers
              
             var user = _mapper.Map<RegisterDTO,AppUser>(registerDTO);
 
-            using var hmac = new HMACSHA512();
+            //using var hmac = new HMACSHA512();
 
             user.UserName = registerDTO.UserName.ToLower();
             
-            user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDTO.Password));
-            user.PasswordSalt = hmac.Key;
+            //user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDTO.Password));
+            //user.PasswordSalt = hmac.Key;
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
@@ -59,15 +59,15 @@ namespace API.Controllers
             .Include(p=>p.Photos)
             .FirstOrDefaultAsync(x=>x.UserName == loginDTO.UserName);
             if(user == null) return Unauthorized("invalid User name");
-            // using hmac algorithms same as user hashing salt saved in database 
-            using var hmac = new HMACSHA512(user.PasswordSalt);
-           // hasing user login password with same Hash Algorithm
-            var ComputedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDTO.Password));
-            // compare between bytes[] of user password login  and user password in database 
-            for (int i = 0; i < ComputedHash.Length; i++)
-            {
-                if(ComputedHash[i] != user.PasswordHash[i]) return Unauthorized ("Invalid Password");
-            }
+           //// using hmac algorithms same as user hashing salt saved in database 
+           // using var hmac = new HMACSHA512(user.PasswordSalt);
+           //// hasing user login password with same Hash Algorithm
+           // var ComputedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDTO.Password));
+           //// compare between bytes[] of user password login  and user password in database 
+           // for (int i = 0; i < ComputedHash.Length; i++)
+           // {
+           //     if(ComputedHash[i] != user.PasswordHash[i]) return Unauthorized ("Invalid Password");
+           // }
             return  new UserDto
             {
                 UserName = user.UserName,

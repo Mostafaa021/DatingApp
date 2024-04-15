@@ -41,9 +41,10 @@ var services = scope.ServiceProvider; // access above services inside created Sc
 try
 {
  var context =services.GetRequiredService<DataContext>(); // get context which will be seed inside
- var userManager = services.GetRequiredService<UserManager<AppUser>>(); // get UserManager context instead of DataContext Used
+ var userManager = services.GetRequiredService<UserManager<AppUser>>(); // get UserManager  instead of DataContext Used
+ var roleManager = services.GetRequiredService<RoleManager<AppRole>>(); // get RoleManager  instead of DataContext Used
  await context.Database.MigrateAsync(); // this function to ensure migration and if dropped database will create new one with seeded data
- await Seed.SeedUsers(userManager); // Then seed Data in database
+ await Seed.SeedUsers(userManager , roleManager); // Then seed Data in database
 }
 catch (Exception ex)
 {

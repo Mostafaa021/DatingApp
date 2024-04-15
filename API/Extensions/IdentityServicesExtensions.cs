@@ -32,7 +32,8 @@ namespace API.Extensions
             ValidateIssuerSigningKey = true , // Validate Token  based on Signing key
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"])), // Declare SigningKey 
             ValidateIssuer = false,
-            ValidateAudience = false 
+            ValidateAudience = false
+
             };
         }); 
         return services ;

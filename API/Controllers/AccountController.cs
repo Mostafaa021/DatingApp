@@ -49,10 +49,15 @@ namespace API.Controllers
             //CreateAsync(user, registerDTO.Password)  will create and save changes in database 
             var result =  await _userManager.CreateAsync(user, registerDTO.Password); 
             if (!result.Succeeded) return BadRequest(result.Errors);
+            // after user register by default add user to role member 
+            var roleResult = await _userManager.AddToRoleAsync(user, "Member");
+
+            if (!roleResult.Succeeded) return BadRequest(roleResult.Errors); 
+            
             return new UserDto
             {
                 UserName = user.UserName,
-                Token = _tokenService.CreateToken(user),
+                Token =  await _tokenService.CreateToken(user), // here we used await as Create Token works Asyncorounhs
                 KnownAs = user.KnownAs,
                 Gender = user.Gender
 
@@ -83,7 +88,7 @@ namespace API.Controllers
             return  new UserDto
             {
                 UserName = user.UserName,
-                Token = _tokenService.CreateToken(user),
+                Token = await _tokenService.CreateToken(user),
                 PhotoUrl = user.Photos.FirstOrDefault(x=>x.IsMain)?.URL,
                 KnownAs = user.KnownAs,
                 Gender = user.Gender

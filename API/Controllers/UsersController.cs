@@ -31,6 +31,8 @@ namespace API.Controllers
             _photoService = photoService;
             _userRepository = userRepository;
         }
+
+        [Authorize(Roles ="Admin")]
         [HttpGet]
         public async Task<ActionResult<PagedList<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
         {   //* get current logged in user
@@ -48,11 +50,14 @@ namespace API.Controllers
              users.RecordsCount , users.PagesCount));
             return Ok(users); // OK =>Return object of type Task<ActionResult>
         }
+       
         [HttpGet("{id:int}")]
         public async Task<ActionResult<MemberDto>> GetUserById(int id)
         {
             return await _userRepository.GetMemberByIdAsync(id);
         }
+
+        [Authorize(Roles = "Member")]
         [HttpGet("{name:alpha}")]
         public async Task<ActionResult<MemberDto>> GetUserByName(string name)
         {
@@ -63,6 +68,7 @@ namespace API.Controllers
              return await _userRepository.GetMemberByNameAsync(name);
             
         }
+
         [HttpPut]
         public async Task<ActionResult> EditUser(MemberUpdateDto memberUpdateDto)
         {

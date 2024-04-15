@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { User } from '../_models/user';
 import { BehaviorSubject, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import * as jwt_decode from "jwt-decode";
+
 
 @Injectable({
   providedIn : 'root' // survive for the whole lifetime of application
@@ -44,6 +46,12 @@ export class AccountService {
   }
 
   setCurrentUser(user:User){
+     user.roles = [] ; 
+     // get roles from payload
+     const roles = this.getDecodedToken(user.token).role;
+      // if Array of roles or just one role 
+      Array.isArray(roles)? user.roles = roles : user.roles.push(roles)
+
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user) // Function to be used out from component which inject Account Service to set value in currentUser
   }
@@ -51,4 +59,13 @@ export class AccountService {
     localStorage.removeItem('user');
     this.currentUserSource.next(null) // if user logged out set null to object
   }
+
+  // i`m adding roles to token 
+  // so what about geting roles from Payload of Token =>  header.payload.signature [0].[1].[2]
+   getDecodedToken(token : string){
+    //return jwt_decode.jwtDecode(token) //here another solution to use library to decode token 
+    let result = JSON.parse(atob(token.split('.')[1])) // built in function in javascript  ==> atob
+    return  result
+   }
+
 }

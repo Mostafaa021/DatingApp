@@ -25,6 +25,7 @@ import { DatePickerComponent } from './_forms/date-picker/date-picker.component'
 import { ErrorsInterceptor } from './_interceptors/errors.interceptor';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 
 
 
@@ -45,6 +46,7 @@ import { LoadingInterceptor } from './_interceptors/loading.interceptor';
     PhotoEditorComponent,
     TextInputComponent,
     DatePickerComponent,
+    AdminPanelComponent,
     
   ],
   imports: [

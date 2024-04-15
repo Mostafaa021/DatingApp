@@ -19,17 +19,17 @@ export class MemberListComponent  implements OnInit{
   userParams ?: UserParams;
   genderList = [{value : 'male' , display : 'Males'},
                 {value : 'female' , display : 'Females'}]
- 
+
   showBoundaryLinks = true;
-  
+
   constructor(private memberservice: MemberService ) {
-    this.userParams = this.memberservice.getUserParams() 
+    this.userParams = this.memberservice.getUserParams()
   }
   ngOnInit(): void {
    // this.members$  = this.memberservice.getMembers();
    this.loadMembers()
   }
- 
+
   loadMembers(){
     if(this.userParams) {
       this.memberservice.setUserParams(this.userParams)

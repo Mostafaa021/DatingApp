@@ -22,14 +22,15 @@ namespace API.Data
          public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {
             // get all user that oposite gender  asQueryable
-            var query = _context.Users.Where(x=>x.Gender!=userParams.Gender).AsQueryable();
+            var query = _context.Users.AsQueryable(); 
             /// Adding some Filters 
             // get users that not matching the same username(other users) && Gender == Gender
             // here user.Gender == userParams.Gender not the oposite to be handled in controller
             // but user.userName != userParams.userName as in all cases you can`t matching yourself 
-           query = query.Where(x=>x.UserName != userParams.CurrentUserName && x.Gender != userParams.Gender);
-           var MinBirthDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-userParams.MaxAge-1)) ;  // to get minimum date for app
-           var MaxBirthDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-userParams.MinAge)) ;  // to get Max date  for app
+            query = query.Where(u => u.UserName != userParams.CurrentUserName);
+            query = query.Where(u => u.Gender == userParams.Gender);
+            var MinBirthDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-userParams.MaxAge-1)) ;  // to get minimum date for app
+            var MaxBirthDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-userParams.MinAge)) ;  // to get Max date  for app
            query= query.Where(x=>x.BirthDate >= MinBirthDate && x.BirthDate <= MaxBirthDate);
            query = userParams.OrderBy switch 
            {

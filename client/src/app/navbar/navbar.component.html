@@ -16,7 +16,7 @@
           </li>
           <li class="nav-item" >
             <a type="button" class="btn btn-light"  routerLink="/messages" routerLinkActive="active">Messages</a>
-          </li> 
+          </li>
         </ng-container>
         <!-- <li class="nav-item" >
           <a type="button" class="btn btn-light"  routerLink="/errors" routerLinkActive="active">Errors</a>
@@ -25,7 +25,7 @@
 <!-- if Logged in => use Angular NgIf to show Welcome User Button -->
         <div class="btn-group" dropdown *ngIf="(accountService.currentUser$|async) as user" >
           <img src="{{user.photoUrl || './assets/user.png'}}" alt="user Photo">
-          <a  dropdownToggle type="button" class="btn btn-dark dropdown-toggle"> Welcome {{user.knownAs}}</a>
+          <a  dropdownToggle type="button" class="btn btn-dark dropdown-toggle"> Welcome {{user.userName}}</a>
           <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"role="menu" aria-labelledby="button-animated">
             <li role="menuitem" ><a class="dropdown-item" routerLink="member/edit">Edit Profile</a></li>
             <!-- when click => call Fucntion Logout which used in NavBar Component Class  -->
@@ -38,17 +38,17 @@
         <!-- when Click Login Button => Call Function Login which used in Navbar Component Class and submit it -->
         <form *ngIf="!(accountService.currentUser$|async)" #loginForm="ngForm" class="d-flex" (ngSubmit)="login()" autocomplete="off">
           <!-- [(ngModel)] used to Bind Data in HTTP Request   -->
-            <input 
+            <input
             name="userName"
             [(ngModel)]="model.userName"
              class="form-control me-2"
-              type="text" 
+              type="text"
               placeholder="User Name">
             <input
              name="Password"
              [(ngModel)]="model.password"
-             class="form-control me-2" 
-             type="password" 
+             class="form-control me-2"
+             type="password"
              placeholder="password">
             <button class="btn btn-success" type="submit">Login</button>
           </form>

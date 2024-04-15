@@ -13,7 +13,7 @@ namespace API.Data
         public DataContext(DbContextOptions options) : base(options)
         {
         }
-        //public DbSet<AppUser> Users { get; set; }
+        //public DbSet<AppUser> Users { get; set; } // already done by ASP.net identity 
         public DbSet<UserLike> Likes {get; set; }
         public DbSet<Message> Messages { get; set; }
 

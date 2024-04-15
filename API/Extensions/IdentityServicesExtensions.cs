@@ -33,10 +33,14 @@ namespace API.Extensions
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"])), // Declare SigningKey 
             ValidateIssuer = false,
             ValidateAudience = false
-
-            };
-        }); 
-        return services ;
+            };    
+            });
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+                opt.AddPolicy("RequireModeratePhotoRole", policy => policy.RequireRole("Admin", "Moderator"));
+            });
+            return services ;
         }
     }
 }

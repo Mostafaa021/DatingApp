@@ -32,13 +32,13 @@ namespace API.Controllers
             _userRepository = userRepository;
         }
 
-        [Authorize(Roles ="Admin")]
+        
         [HttpGet]
         public async Task<ActionResult<PagedList<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
         {   //* get current logged in user
             var CurrentUser = await _userRepository.GetUserByUserNameAsync(User.GetUsername());
             userParams.CurrentUserName =  CurrentUser.UserName;
-            userParams.Gender = CurrentUser.Gender;
+           
             // here to project oposite of user in gender if female => male | male=> female
             if(string.IsNullOrEmpty(userParams.Gender))
             {
@@ -57,7 +57,7 @@ namespace API.Controllers
             return await _userRepository.GetMemberByIdAsync(id);
         }
 
-        [Authorize(Roles = "Member")]
+       
         [HttpGet("{name:alpha}")]
         public async Task<ActionResult<MemberDto>> GetUserByName(string name)
         {

@@ -27,8 +27,7 @@ namespace API.Extensions
             AddJwtBearer(options=>{
             options.RequireHttpsMetadata = true;
             options.SaveToken = true ;
-            options.TokenValidationParameters = new TokenValidationParameters
-            {
+            options.TokenValidationParameters = new TokenValidationParameters{
             ValidateIssuerSigningKey = true , // Validate Token  based on Signing key
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"])), // Declare SigningKey 
             ValidateIssuer = false,

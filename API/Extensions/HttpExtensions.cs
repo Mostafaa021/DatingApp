@@ -7,9 +7,13 @@ namespace API.Extensions
     {
         public static void AddPaginationHeader(this HttpResponse responce , PaginationHeader header  )
         {
-           var jsonOptions =  new JsonSerializerOptions{PropertyNamingPolicy = JsonNamingPolicy.CamelCase}; 
-           responce.Headers.Add("Pagination",JsonSerializer.Serialize(header,jsonOptions)); // Writing in  Header Responce key:value
-           responce.Headers.Add("Access-Control-Expose-Headers","Pagination");  // Allow Access of Pagination to be exposed in headers
+            // options of serlizations 
+           var jsonOptions =  new JsonSerializerOptions{PropertyNamingPolicy = JsonNamingPolicy.CamelCase};
+            // Writing in  Header Responce key:value
+            responce.Headers.Add("Pagination",JsonSerializer.Serialize(header,jsonOptions));
+            // Allow Access of Pagination to be exposed in headers
+            responce.Headers.Add("Access-Control-Expose-Headers","Pagination"); 
+            
         } 
     }
 }

@@ -44,7 +44,7 @@ namespace API.Services
            {
              SigningCredentials = creds ,
              Subject = new ClaimsIdentity(claims),
-             Expires = DateTime.Now.AddDays(5)
+             Expires = DateTime.Now.AddMinutes(15)
            };
             // Create instance from Token Handler 
             var TokenHandler = new JwtSecurityTokenHandler();

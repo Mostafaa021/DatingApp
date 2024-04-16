@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Configurations>Debug;Release;local</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,6 +24,14 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.31.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="D:\SoftwareDevelopment\Projects\Projects\DatingApp\API\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="D:\SoftwareDevelopment\Projects\Projects\DatingApp\API\.editorconfig" />
   </ItemGroup>
 
 </Project>

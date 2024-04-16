@@ -4,6 +4,7 @@ import { User } from '../_models/user';
 import { BehaviorSubject, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import * as jwt_decode from "jwt-decode";
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -17,7 +18,7 @@ export class AccountService {
  private currentUserSource = new BehaviorSubject<User|null>(null) ; // using Behaviour Subject Observable to make All components see Current User
  currentUser$ = this.currentUserSource.asObservable(); // make public property as Observable
   
-  constructor(private http:HttpClient ) {}
+  constructor(private http:HttpClient , private router:Router ) {}
   // using Rxjs library which deal with observable  , transform observable
   // Login Function Carry Business Logic
   login(model:any){
@@ -28,18 +29,20 @@ export class AccountService {
           // localStorage.setItem('user' , JSON.stringify(user)) // Key Value Pair as String
           // this.currentUserSource.next(user); // if user logged in succesfully update CurrentUserSource with user object 
           this.setCurrentUser(user);
+          this.router.navigateByUrl(this.baseUrl + "members")
         }
       })
      )
-  }
+  } 
   // Register Function Carry Business Logic
   register(model:any){
-    return this.http.post<User>(this.baseUrl+'account/Register' , model).pipe(
+    return this.http.post<User>(this.baseUrl+'account/Register', model).pipe(
       map(user=>{
         if(user){
           // localStorage.setItem('user',JSON.stringify(user))
           // this.currentUserSource.next(user)// if user Registered succesfully update CurrentUserSource with user object
           this.setCurrentUser(user);
+          this.router.navigateByUrl(this.baseUrl + "members")
         }
       })
     )
@@ -58,6 +61,7 @@ export class AccountService {
   logout(){
     localStorage.removeItem('user');
     this.currentUserSource.next(null) // if user logged out set null to object
+    this.router.navigateByUrl(this.baseUrl)
   }
 
   // i`m adding roles to token 

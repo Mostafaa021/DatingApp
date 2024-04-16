@@ -479,3 +479,7 @@ $RECYCLE.BIN/
 API/appsettings.json
 *.config
 API/DatingApp.db
+API/DatingApp.db-shm
+API/DatingApp.db-wal
+*.gitignore
+/.gitignore

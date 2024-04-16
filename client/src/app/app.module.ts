@@ -21,11 +21,13 @@ import { MemberEditComponent } from './members/member-edit/member-edit.component
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 import { TextInputComponent } from './_forms/text-input/text-input.component';
 import { DatePickerComponent } from './_forms/date-picker/date-picker.component';
-
-import { ErrorsInterceptor } from './_interceptors/errors.interceptor';
-import { JwtInterceptor } from './_interceptors/jwt.interceptor';
-import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+
+import { JwtInterceptor } from './_interceptors/jwt.interceptor';
+import { ErrorsInterceptor } from './_interceptors/errors.interceptor';
+import { LoadingInterceptor } from './_interceptors/loading.interceptor';
+
+import { HasRoleDirective } from './_directives/has-role.directive';
 
 
 
@@ -47,6 +49,7 @@ import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
     TextInputComponent,
     DatePickerComponent,
     AdminPanelComponent,
+    HasRoleDirective,
     
   ],
   imports: [
